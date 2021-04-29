@@ -25,24 +25,16 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-function-context</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-function-adapter-aws</artifactId>
 		</dependency>
 		<dependency>
@@ -120,18 +112,6 @@
 					</excludes>
 					<mainClass>com.example.kinesisdemo.KinesisDemoApplication</mainClass>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.springframework.boot.experimental</groupId>
@@ -144,7 +124,34 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.4</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<version>2.4.5</version>
+					</dependency>
+				</dependencies>
 				<configuration>
+					<artifactSet>
+						<excludes>
+							<exclude>com.github.oshi:oshi-core:*</exclude>
+							<exclude>org.projectlombok:*:*</exclude>
+							<exclude>net.java.dev.jna:*:*</exclude>
+							<!-- provided by lambda runtime  https://docs.aws.amazon.com/lambda/latest/dg/java-package.html -->
+							<exclude>com.amazonaws:aws-lambda-java-core:*</exclude>
+							<exclude>com.amazonaws:aws-lambda-java-events:*</exclude>
+							<exclude>com.amazonaws:amazon-kinesis-producer</exclude>
+						</excludes>
+					</artifactSet>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<!-- Suppress module-info.class warning-->
+								<exclude>module-info.class</exclude>
+							</excludes>
+						</filter>
+					</filters>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<shadedArtifactAttached>true</shadedArtifactAttached>
 					<shadedClassifierName>aws</shadedClassifierName>

@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CpuStat {
+public class DiskStat {
 
-    @JsonProperty("count")
-    private int cpuCount;
-    private double user;
-    private double system;
-    private double idle;
+    private long totalSpace;
+    private long availableSpace;
+    private String diskUUID;
+    private String diskLabel;
 }

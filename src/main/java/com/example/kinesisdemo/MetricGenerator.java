@@ -49,7 +49,6 @@ public class MetricGenerator {
     }
 
     public static void main(String[] args) {
-
         final AtomicInteger count = new AtomicInteger();
         final SystemInfo systemInfo = new SystemInfo();
         MetricGenerator generator = new MetricGenerator();
@@ -122,6 +121,7 @@ public class MetricGenerator {
         }
 
         try {
+            //log.info("data ---- " + new String(MAPPER.writeValueAsBytes(event)));
             //process results async
             ListenableFuture<UserRecordResult> future =
                     kinesisProducer.addUserRecord(STREAM_NAME, event.getHostName(),

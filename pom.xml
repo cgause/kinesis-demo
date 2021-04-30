@@ -45,14 +45,12 @@
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-lambda-java-core</artifactId>
 			<version>${aws.lambda.core.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-lambda-java-events</artifactId>
 			<version>${aws.lambda.events.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -137,9 +135,6 @@
 							<exclude>com.github.oshi:oshi-core:*</exclude>
 							<exclude>org.projectlombok:*:*</exclude>
 							<exclude>net.java.dev.jna:*:*</exclude>
-							<!-- provided by lambda runtime  https://docs.aws.amazon.com/lambda/latest/dg/java-package.html -->
-							<exclude>com.amazonaws:aws-lambda-java-core:*</exclude>
-							<exclude>com.amazonaws:aws-lambda-java-events:*</exclude>
 							<exclude>com.amazonaws:amazon-kinesis-producer</exclude>
 						</excludes>
 					</artifactSet>

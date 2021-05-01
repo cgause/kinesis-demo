@@ -19,28 +19,34 @@
 		<wrapper.version>1.0.17.RELEASE</wrapper.version>
 		<aws.lambda.core.version>1.2.1</aws.lambda.core.version>
 		<aws.lambda.events.version>3.8.0</aws.lambda.events.version>
+		<aws-kinesis-deaggregator.version>1.0.3</aws-kinesis-deaggregator.version>
 		<aws.sdk.version>1.11.1003</aws.sdk.version>
 		<aws.kpl.version>0.14.6</aws.kpl.version>
+		<aws.kcl.version>2.3.4</aws.kcl.version>
+		<mockito.version>3.9.0</mockito.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-function-adapter-aws</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
-			<artifactId>spring-cloud-function-adapter-aws</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-lambda-java-core</artifactId>
@@ -59,10 +65,18 @@
 			<version>${aws.sdk.version}</version>
 		</dependency>
 
+		<!-- used to produce events from sample driver application -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>amazon-kinesis-producer</artifactId>
 			<version>${aws.kpl.version}</version>
+		</dependency>
+
+		<!-- required for deaggregation -->
+		<dependency>
+			<groupId>software.amazon.kinesis</groupId>
+			<artifactId>amazon-kinesis-client</artifactId>
+			<version>${aws.kcl.version}</version>
 		</dependency>
 
 		<dependency>
@@ -83,6 +97,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>${mockito.version}</version>
+		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

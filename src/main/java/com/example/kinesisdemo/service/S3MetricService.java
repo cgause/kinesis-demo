@@ -1,18 +1,21 @@
 package com.example.kinesisdemo.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.example.kinesisdemo.functions.S3MetricObjectKeyFunction;
 import com.example.kinesisdemo.model.MetricEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
+import java.util.function.Function;
 
 @Service
+@Log4j2
 public class S3MetricService implements MetricService {
 
     private static final String BUCKET_NAME = "com-rhymeswithsauce-metrics";
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MMddyyyyHHmmssn");
+    private static final Function<MetricEvent, String> KEY_FUNCTION = new S3MetricObjectKeyFunction();
     private final AmazonS3 s3Client;
     private final ObjectMapper objectMapper;
 
@@ -23,7 +26,6 @@ public class S3MetricService implements MetricService {
 
     @Override
     public void saveMetricEvent(MetricEvent event) throws IOException {
-        String key = String.format("%s/%s", event.getHostName(), event.getTimestamp().format(DATE_FORMATTER));
-        s3Client.putObject(BUCKET_NAME, key, objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(event));
+        s3Client.putObject(BUCKET_NAME, KEY_FUNCTION.apply(event), objectMapper.writeValueAsString(event));
     }
 }

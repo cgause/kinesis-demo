@@ -121,7 +121,6 @@ public class MetricGenerator {
         }
 
         try {
-            //log.info("data ---- " + new String(MAPPER.writeValueAsBytes(event)));
             //process results async
             ListenableFuture<UserRecordResult> future =
                     kinesisProducer.addUserRecord(STREAM_NAME, event.getHostName(),

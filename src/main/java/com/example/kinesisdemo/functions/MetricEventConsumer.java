@@ -31,7 +31,7 @@ public class MetricEventConsumer implements Consumer<KinesisEvent> {
                 byte[] data = new byte[kcr.data().remaining()];
                 kcr.data().get(data);
                 MetricEvent metric = mapper.readValue(data, MetricEvent.class);
-                //metricService.saveMetricEvent(metric);
+                metricService.saveMetricEvent(metric);
                 log.info("processed event with id: {}", metric.getId());
             }
         } catch (Exception e) {
